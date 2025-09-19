@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reliability Dashboard — Ramen App</title>
+  <link rel="stylesheet" href="prototype/styles.css" />
+</head>
+<body>
+  <div class="header">
+    <div class="title">Reliability Dashboard</div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h3>KPIs (Last 7 days)</h3>
+      <div class="row">
+        <div class="col card">
+          <h4>ETA p90 error</h4>
+          <div style="font-size:32px">5m 12s</div>
+          <div class="badge">Target ≤ 6m</div>
+        </div>
+        <div class="col card">
+          <h4>Defect rate</h4>
+          <div style="font-size:32px">2.6%</div>
+          <div class="badge">Target ≤ 3%</div>
+        </div>
+        <div class="col card">
+          <h4>Refunds / GMV</h4>
+          <div style="font-size:32px">4.8%</div>
+          <div class="badge">Target ≤ 6%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Top restaurants by reliability drop</h3>
+      <ul class="list">
+        <li>Tonkotsu Prime — 4.6 → 4.2 (n=120) — Spike in soggy flags</li>
+        <li>Shoyu Street — 4.4 → 4.1 (n=80) — Late deliveries (provider backlog)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Facet distribution (last 30 days)</h3>
+      <ul class="list">
+        <li>Heat: 5⭐ 62% • 4⭐ 24% • 3⭐ 9% • 2⭐ 4% • 1⭐ 1%</li>
+        <li>Firmness: 5⭐ 58% • 4⭐ 27% • 3⭐ 10% • 2⭐ 4% • 1⭐ 1%</li>
+        <li>Packaging: 5⭐ 75% • 4⭐ 18% • 3⭐ 5% • 2⭐ 1% • 1⭐ 1%</li>
+      </ul>
+    </div>
+
+    <div class="footer">Dashboard mock • Connect to telemetry later</div>
+  </div>
+</body>
+</html>

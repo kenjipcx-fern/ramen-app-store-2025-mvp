@@ -1,0 +1,283 @@
+openapi: 3.0.3
+info:
+  title: Ramen App Store API
+  version: 0.1.0
+  description: MVP API for customer app and restaurant portal
+servers:
+  - url: https://api.ramen-app.example.com
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          example: EORDER-INVALID_STATE
+        message:
+          type: string
+        details:
+          type: object
+    User:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        email: { type: string, format: email }
+        name: { type: string }
+        avatarUrl: { type: string }
+        dietaryTags: { type: array, items: { type: string } }
+    Address:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        label: { type: string }
+        line1: { type: string }
+        line2: { type: string }
+        city: { type: string }
+        region: { type: string }
+        postalCode: { type: string }
+        country: { type: string }
+        lat: { type: number }
+        lng: { type: number }
+        instructions: { type: string }
+        isDefault: { type: boolean }
+    Restaurant:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        rating: { type: number, format: float }
+        reliabilityScore:
+          type: object
+          properties:
+            value: { type: number, format: float }
+            sampleSize: { type: integer }
+            windowDays: { type: integer }
+        priceTier: { type: integer }
+        styles: { type: array, items: { type: string } }
+        openNow: { type: boolean }
+    MenuItem:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        description: { type: string }
+        photoUrl: { type: string }
+        basePriceCents: { type: integer }
+        allergens: { type: array, items: { type: string } }
+        dietaryTags: { type: array, items: { type: string } }
+        isTsukemen: { type: boolean }
+        optionsSchema:
+          type: object
+          description: Customization schema (firmness, spice, oil, toppings)
+    Cart:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              menuItemId: { type: string, format: uuid }
+              quantity: { type: integer }
+              customizations: { type: object }
+              splitPackaging: { type: boolean }
+              notes: { type: string, maxLength: 200 }
+        fees:
+          type: object
+          properties:
+            subtotalCents: { type: integer }
+            taxCents: { type: integer }
+            deliveryFeeCents: { type: integer }
+            serviceFeeCents: { type: integer }
+            packagingSurchargeCents: { type: integer }
+            tipCents: { type: integer }
+            totalCents: { type: integer }
+    Order:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        status: { type: string, enum: [placed, accepted, cooking, packed, awaiting_pickup, picked_up, arriving, delivered, canceled, refunded] }
+        address: { $ref: '#/components/schemas/Address' }
+        restaurant: { $ref: '#/components/schemas/Restaurant' }
+        items: { type: array, items: { type: object } }
+        fees: { $ref: '#/components/schemas/Cart/properties/fees' }
+        eta: { type: string, format: date-time }
+        timeline:
+          type: array
+          items:
+            type: object
+            properties:
+              status: { type: string }
+              at: { type: string, format: date-time }
+paths:
+  /auth/signup:
+    post:
+      tags: [Auth]
+      summary: Sign up
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string }
+                password: { type: string }
+                provider: { type: string, enum: [email, apple, google] }
+                idToken: { type: string, description: For Apple/Google }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/User' } } } }
+        '400': { description: Bad Request, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  /me:
+    get:
+      tags: [Users]
+      summary: Get current user profile
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/User' } } } }
+  /restaurants:
+    get:
+      tags: [Discovery]
+      summary: List restaurants
+      parameters:
+        - in: query
+          name: query
+          schema: { type: string }
+        - in: query
+          name: style
+          schema: { type: array, items: { type: string } }
+          style: form
+          explode: true
+        - in: query
+          name: sort
+          schema: { type: string, enum: [rating, reliability, distance, prepTime] }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Restaurant' }
+  /restaurants/{id}:
+    get:
+      tags: [Discovery]
+      summary: Get restaurant details
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Restaurant' } } } }
+  /restaurants/{id}/menu:
+    get:
+      tags: [Discovery]
+      summary: Get menu for a restaurant
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/MenuItem' } } } } }
+  /cart:
+    get:
+      tags: [Cart]
+      summary: Get cart
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Cart' } } } }
+    put:
+      tags: [Cart]
+      summary: Set cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+      responses:
+        '200': { description: OK }
+  /orders:
+    post:
+      tags: [Orders]
+      summary: Create order
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                addressId: { type: string }
+                type: { type: string, enum: [delivery, pickup] }
+                tipCents: { type: integer }
+                promoCode: { type: string }
+                scheduledAt: { type: string, format: date-time }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Order' } } } }
+        '409': { description: Conflict, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  /orders/{id}:
+    get:
+      tags: [Orders]
+      summary: Get order
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Order' } } } }
+  /orders/{id}/track:
+    get:
+      tags: [Orders]
+      summary: Track order
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string }
+                  eta: { type: string, format: date-time }
+                  driver:
+                    type: object
+                    properties:
+                      lat: { type: number }
+                      lng: { type: number }
+  /orders/{id}/cancel:
+    post:
+      tags: [Orders]
+      summary: Cancel order if allowed
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+        '422': { description: Unprocessable Entity, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+

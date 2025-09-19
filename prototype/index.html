@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ramen App Store Prototype</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="header">
+    <div class="title">Ramen App</div>
+    <div class="pill">SF Bay Area</div>
+    <div class="pill">Delivery</div>
+    <a class="btn" href="#">Cart • 2</a>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h2>Get your ramen delivered hot and textured right</h2>
+      <div>
+        <span class="badge">Reliability 4.6</span>
+        <span class="badge">Split packaging default</span>
+        <span class="badge">ETA p90 ≤ 6 min</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col card">
+        <h3>Filters</h3>
+        <div>
+          <span class="pill">Tonkotsu</span>
+          <span class="pill">Shoyu</span>
+          <span class="pill">Miso</span>
+          <span class="pill">Tsukemen</span>
+          <span class="pill">Vegan</span>
+        </div>
+        <select>
+          <option>Sort by Rating</option>
+          <option>Sort by Reliability</option>
+          <option>Sort by Distance</option>
+          <option>Sort by Prep time</option>
+        </select>
+      </div>
+      <div class="col card">
+        <h3>Nearby Ramen</h3>
+        <div class="grid">
+          <div class="card">
+            <img class="cover" src="https://images.unsplash.com/photo-1557872943-16a5ac26437b?q=80&w=1200&auto=format&fit=crop" />
+            <h4>Tonkotsu Prime</h4>
+            <div>
+              <span class="badge">Rating 4.7</span>
+              <span class="badge">Reliability 4.6</span>
+              <span class="badge">$2.99 • 35–45m</span>
+            </div>
+            <a class="btn" href="#bowl">View menu</a>
+          </div>
+          <div class="card">
+            <img class="cover" src="https://images.unsplash.com/photo-1557872943-16a5ac26437b?q=80&w=1200&auto=format&fit=crop" />
+            <h4>Shoyu Street</h4>
+            <div>
+              <span class="badge">Rating 4.5</span>
+              <span class="badge">Reliability 4.4</span>
+              <span class="badge">$1.99 • 30–40m</span>
+            </div>
+            <a class="btn" href="#bowl">View menu</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="bowl" class="card">
+      <h3>Tonkotsu Classic</h3>
+      <img class="cover" src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop" />
+      <p>Rich pork bone broth, chashu, ajitama, negi</p>
+      <label>Noodle firmness</label>
+      <select>
+        <option>Regular</option>
+        <option>Soft</option>
+        <option>Firm</option>
+      </select>
+      <label>Spice level</label>
+      <select>
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+      <label>Oil</label>
+      <select>
+        <option>Regular</option>
+        <option>Light</option>
+        <option>None</option>
+      </select>
+      <div>
+        <label><input type="checkbox" checked /> Split packaging (+$0.75, +3 min)</label>
+      </div>
+      <textarea placeholder="Notes (≤200 chars)"></textarea>
+      <div style="margin-top:8px">
+        <a class="btn" href="cart.html">Add to cart — $14.99</a>
+        <a class="btn secondary" href="index.html">Back</a>
+      </div>
+    </div>
+
+    <div class="footer">Prototype • MVP scope • Non-functional demo</div>
+  </div>
+</body>
+</html>

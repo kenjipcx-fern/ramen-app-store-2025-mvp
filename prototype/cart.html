@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cart — Ramen App</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="header">
+    <a class="btn secondary" href="index.html">Back</a>
+    <div class="title">Your Cart</div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h3>Tonkotsu Classic</h3>
+      <div class="badge">Regular • spice 2 • oil regular</div>
+      <div class="badge">Split packaging (+$0.75, +3 min)</div>
+      <div>Qty: 1 — $14.99</div>
+    </div>
+
+    <div class="card">
+      <h3>Fees</h3>
+      <ul class="list">
+        <li>Subtotal <span style="float:right">$14.99</span></li>
+        <li>Packaging surcharge <span style="float:right">$0.75</span></li>
+        <li>Delivery fee <span style="float:right">$2.99</span></li>
+        <li>Service fee <span style="float:right">$1.20</span></li>
+        <li>Tax <span style="float:right">$1.55</span></li>
+        <li>Tip <span style="float:right">$3.00</span></li>
+        <li><strong>Total</strong> <span style="float:right"><strong>$24.48</strong></span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Delivery</h3>
+      <div class="row">
+        <div class="col">
+          <label>ASAP or Schedule</label>
+          <select><option>ASAP (35–45m)</option><option>Schedule…</option></select>
+        </div>
+        <div class="col">
+          <label>Tip</label>
+          <select><option>15% ($3.00)</option><option>18% ($3.60)</option><option>20% ($4.00)</option><option>Custom…</option></select>
+        </div>
+      </div>
+      <label>Address</label>
+      <input placeholder="123 Ramen St, SF" />
+      <label>Delivery instructions</label>
+      <input placeholder="Buzzer 9, leave at door" />
+    </div>
+
+    <div class="card">
+      <label>Promo code</label>
+      <input placeholder="Enter code" />
+    </div>
+
+    <div class="card">
+      <a class="btn" href="tracking.html">Place order</a>
+      <div style="margin-top:8px;color:#666">By placing your order, you agree to refund policy: minor defects auto-credit; spill/undelivered full refund; >15 min late => 15% credit.</div>
+    </div>
+
+    <div class="footer">Cart prototype • Non-functional</div>
+  </div>
+</body>
+</html>
