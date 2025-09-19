@@ -44,3 +44,7 @@ Contributing
 License
 - MIT (for specs and prototype assets). Verify before publishing any proprietary content.
 
+
+
+Live prototype: https://ramen-prototype-morphvm-52mu6gct.http.cloud.morph.so
+Live mock API: https://ramen-mock-api-morphvm-52mu6gct.http.cloud.morph.so
